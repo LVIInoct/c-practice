@@ -66,6 +66,10 @@ void enqueue(struct Node** head, struct Node** tail, int data) {
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node)); // create new node and pointer to new node
     /* - malloc is dynamic memory management, so it stores memory and the address of the byte of this node in RAM.
     it is necessary given that every new node needs its own space */
+    if (newNode == NULL) { // if next node is null after trying to create it, then memory allocation failed
+    printf("Memory allocation failed. (Somehow)\n");
+    return; // return user
+    }
     newNode->data = data; // set data for this new node
     newNode->next = NULL; // This node is at the very end (head), so no one is behind it, so next is NULL.
     if (*head == NULL) { 
@@ -76,10 +80,6 @@ void enqueue(struct Node** head, struct Node** tail, int data) {
         (*tail)->next = newNode; // The current last node's next pointer now points to this new node.
         *tail = newNode; // Update the tail pointer to point to this new node, which is now the last node in the list and official tail.
     }
-    if (newNode == NULL) { // if next node is null after trying to create it, then memory allocation failed
-    printf("Memory allocation failed.\n");
-    return; // return user
-}
 }
 
 // peek first
@@ -110,10 +110,10 @@ void peekLast(struct Node* tail){
 // poll
 void poll(struct Node** head, struct Node** tail){
     struct Node* temp = *head; // temporary pointer to the current head to remove it
-    *head = (*head)->next; // point head to next that comes afterwards
     if (*head == NULL) // if there's no head after polling, then the list is empty, so tail should also be NULL
-        *tail = NULL;
+    *tail = NULL;
     free(temp);
+    *head = (*head)->next; // point head to next that comes afterwards
 }
 
 // display list
