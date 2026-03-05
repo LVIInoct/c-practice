@@ -28,26 +28,32 @@ int main(void){
         // menu
             printf("What would you like to do?\n 1) enqueue \n 2) poll \n 3) Peek first (tail)\n 4) peek last (tail) \n 5) Check size of array and content\n 6)Exit\n");
             scanf("%d", &choice);
-            if (choice == 1) {                 // enqueue first element
-                int value;                     // element value
-                printf("Enter value:\n > ");   // prompt for element value
-                scanf("%d", &value);           // takes element value as input
-            enqueue(&head, &tail, value);      // sends it to the Queue function to be added to the list
-            } else if (choice == 2) {
-                poll(&head, &tail);            // check size of list
-            } else if (choice == 3) {
-                peekFirst(head);               // peek first (head)
-            } else if (choice == 4) {
-                peekLast(tail);                // peek last (tail)
-            } else if (choice == 5) {
-                display(head);                 // since polling remodels and manipulates the head, it takes its address by &head, so it can poll it
-            } else if (choice == 6) {
-                Clear(&head, &tail);           // free any leftovers in the list before exiting
-                printf("Exiting program & clearing leftovers.\n");
-                break;                         // exit the loop and end the program
-            } else {
-                printf("Invalid choice.\n");
-                continue;                        // if the user enters an invalid choice, prompt them again without exiting the program
+            switch (choice) {
+                case 1: // enqueue first element
+                    int value; // element value
+                    printf("Enter value:\n > "); // prompt for element value
+                    scanf("%d", &value); // takes element value as input
+                    enqueue(&head, &tail, value); // sends it to the Queue function to be added to the list
+                    break;
+                case 2:
+                    poll(&head, &tail); // check size of list
+                    break;
+                case 3:
+                    peekFirst(head); // peek first (head)
+                    break;
+                case 4:
+                    peekLast(tail); // peek last (tail)
+                    break;
+                case 5:
+                    display(head); // since polling remodels and manipulates the head, it takes its address by &head, so it can poll it
+                    break;
+                case 6:
+                    Clear(&head, &tail); // free any leftovers in the list before exiting
+                    printf("Exiting program & clearing leftovers.\n");
+                    break; // exit the loop and end the program
+                default: // the 'else' of switch
+                    printf("Invalid choice.\n");
+                    continue; // if the user enters an invalid choice, prompt them again without exiting the program
             }
     }
 
@@ -134,10 +140,7 @@ void Clear(struct Node** head, struct Node** tail) {
         nextNode = trav->next;
         free(trav);           // trav goes through the whole list, freeing each node as it goes, until it reaches the end (NULL)
         trav = nextNode;
-        /* important note: only free stuff only BEFORE setting their value to NULL, otherwise we will lose the
+        /* important note: only free stuff only before setting their value to NULL, otherwise we will lose the
         address of the memory we want to free and cause a memory leak*/
     }
-    free(*head); // gets rid of head
-    free(*tail); // gets rid of tail
-    /*Also be careful to not free something twice otherwise it can crash the program*/
 }
