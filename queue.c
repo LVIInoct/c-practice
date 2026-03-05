@@ -50,7 +50,7 @@ int main(void){
                 case 6:
                     Clear(&head, &tail); // free any leftovers in the list before exiting
                     printf("Exiting program & clearing leftovers.\n");
-                    break; // exit the loop and end the program
+                    return 0; // force exit
                 default: // the 'else' of switch
                     printf("Invalid choice.\n");
                     continue; // if the user enters an invalid choice, prompt them again without exiting the program
@@ -142,5 +142,7 @@ void Clear(struct Node** head, struct Node** tail) {
         trav = nextNode;
         /* important note: only free stuff only before setting their value to NULL, otherwise we will lose the
         address of the memory we want to free and cause a memory leak*/
+        *head = NULL; // set head and tail to null after freeing everything, so it doesn't point to any of the freed memory
+        *tail = NULL;
     }
 }
