@@ -137,6 +137,7 @@ void Clear(struct Node** head, struct Node** tail) {
         /* important note: only free stuff only BEFORE setting their value to NULL, otherwise we will lose the
         address of the memory we want to free and cause a memory leak*/
     }
-    free(*head);
-    free(*tail); 
+    free(*head); // gets rid of head
+    free(*tail); // gets rid of tail
+    /*Also be careful to not free something twice otherwise it can crash the program*/
 }
